@@ -27,7 +27,7 @@ class TestCase extends BaseTestCase
      *
      * @return array<int, class-string>
      */
-    protected function getPackageProviders(Application $app) : array
+    protected function getPackageProviders($app) : array
     {
         return [
             KafkaProducerServiceProvider::class,
@@ -41,7 +41,7 @@ class TestCase extends BaseTestCase
      *
      * @return void
      */
-    protected function getEnvironmentSetUp(Application $app) : void
+    protected function getEnvironmentSetUp($app) : void
     {
         // Perform environment setup.
     }

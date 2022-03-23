@@ -30,5 +30,9 @@
     "require-dev": {
         "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.5.10"
+    },
+    "require": {
+        "mateusjunges/laravel-kafka": "v1.6",
+        "ext-pcntl": "*"
     }
 }
