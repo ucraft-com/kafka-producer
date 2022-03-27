@@ -32,7 +32,8 @@
         "phpunit/phpunit": "^9.5.10"
     },
     "require": {
-        "mateusjunges/laravel-kafka": "v1.6",
-        "ext-pcntl": "*"
+        "php": ">=8.1",
+        "ext-pcntl": "*",
+        "mateusjunges/laravel-kafka": "v1.6"
     }
 }

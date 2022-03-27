@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Uc\KafkaProducer\Tests;
 
-use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Uc\KafkaProducer\KafkaProducerServiceProvider;
 

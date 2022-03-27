@@ -10,6 +10,9 @@ use Uc\KafkaProducer\Listeners\MessageProducerListener;
 
 class EventServiceProvider extends ServiceProvider
 {
+    /**
+     * @var array The event handler mappings for the application.
+     */
     protected $listen = [
         ProduceMessageEvent::class => [
             MessageProducerListener::class,

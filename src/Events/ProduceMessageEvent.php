@@ -15,7 +15,9 @@ class ProduceMessageEvent
     use Dispatchable;
 
     /**
-     * @param \Junges\Kafka\Message\Message $message Reference to the intsance of the message object.
+     * Initialize properties.
+     *
+     * @param \Junges\Kafka\Message\Message $message Reference to the instance of the message object.
      */
     public function __construct(
         protected Message $message
