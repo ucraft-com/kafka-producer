@@ -50,4 +50,15 @@ return [
      | Admin: Admin requests will use socket.timeout.ms or explicitly set rd_kafka_AdminOptions_set_operation_timeout() value.
      */
     'socket_timeout_ms'                     => env('KAFKA_SOCKET_TIMEOUT_MS', '50'),
+
+    /*
+     | Partitioner: random - random distribution, consistent - CRC32 hash of key (Empty and NULL keys are mapped to single partition),
+     | consistent_random - CRC32 hash of key (Empty and NULL keys are randomly partitioned),
+     | murmur2 - Java Producer compatible Murmur2 hash of key (NULL keys are mapped to single partition),
+     | murmur2_random - Java Producer compatible Murmur2 hash of key (NULL keys are randomly partitioned.
+     | This is functionally equivalent to the default partitioner in the Java Producer.),
+     | fnv1a - FNV-1a hash of key (NULL keys are mapped to single partition),
+     | fnv1a_random - FNV-1a hash of key (NULL keys are randomly partitioned).
+     */
+    'partitioner'                           => env('KAFKA_PARTITIONER', 'random'),
 ];

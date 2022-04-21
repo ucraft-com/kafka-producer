@@ -39,6 +39,7 @@ class MessageProducerListener
                 'sasl.username'                         => config('kafka-producer.sasl_username'),
                 'sasl.password'                         => config('kafka-producer.sasl_password'),
                 'socket.timeout.ms'                     => config('kafka-producer.socket_timeout_ms'),
+                'partitioner'                           => config('kafka-producer.partitioner'),
             ]);
 
         if (extension_loaded('pcntl')) {
