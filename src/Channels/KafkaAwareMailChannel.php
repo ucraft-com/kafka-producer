@@ -23,15 +23,13 @@ class KafkaAwareMailChannel extends AbstractKafkaAwareChannel
         $message = $notification->toKafkaMail($notifiable);
 
         try {
+            $messageBody = $message->getValidProperties();
+            $messageBody['from'] = env('MAIL_FROM_ADDRESS');
+
             /** @var Message $kafkaMessage */
             $kafkaMessage = Message::create(config('kafka-producer.mail_topic_name'))
                 ->withKey($message->getMessageKey())
-                ->withBody([
-                    'recipients' => [$message->getRecipient()],
-                    'subject'    => $message->getSubject(),
-                    'body'       => $message->getBody(),
-                    'from'       => env('MAIL_FROM_ADDRESS'),
-                ]);
+                ->withBody($messageBody);
 
             $this->dispatcher->dispatch(new ProduceMessageEvent($kafkaMessage));
         } catch (Exception $exception) {
