@@ -25,7 +25,7 @@ class KafkaAwareMailChannel extends AbstractKafkaAwareChannel
         try {
             /** @var Message $kafkaMessage */
             $kafkaMessage = Message::create(config('kafka-producer.mail_topic_name'))
-                ->withKey((string) $message->getProject()->id)
+                ->withKey($message->getMessageKey())
                 ->withBody([
                     'recipients' => [$message->getRecipient()],
                     'subject'    => $message->getSubject(),
