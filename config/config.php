@@ -61,4 +61,9 @@ return [
      | fnv1a_random - FNV-1a hash of key (NULL keys are randomly partitioned).
      */
     'partitioner'                           => env('KAFKA_PARTITIONER', 'random'),
+
+    /*
+     | Mail topic name.
+     */
+    'mail_topic_name'                       => env('KAFKA_MAIL_TOPIC_NAME'),
 ];
