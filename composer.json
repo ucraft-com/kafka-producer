@@ -35,6 +35,7 @@
     "php": ">=8.0",
     "ext-pcntl": "*",
     "ext-rdkafka": "*",
-    "symfony/serializer": "6.2.x-dev"
+    "symfony/serializer": "6.2.x-dev",
+    "symfony/property-access": "6.2.x-dev"
   }
 }
