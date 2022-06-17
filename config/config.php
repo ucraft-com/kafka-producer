@@ -7,6 +7,23 @@ return [
     'client_id'                             => env('KAFKA_CLIENT_ID', 'php-kafka-producer'),
 
     /*
+     | Alias for metadata.broker.list: Initial list of brokers as a CSV list of broker host or host:port.
+     | The application may also use rd_kafka_brokers_add() to add brokers during runtime.
+     */
+    'bootstrap_servers'                     => env('KAFKA_BOOTSTRAP_SERVERS'),
+
+    /*
+     | A comma-separated list of debug contexts to enable.
+     | Detailed Producer debugging: broker,topic,msg. Consumer: consumer,cgrp,topic,fetch.
+     */
+    'debug'                                 => env('KAFKA_DEBUG'),
+
+    /*
+     | Logging level (syslog(3) levels)
+     */
+    'log_level'                             => (string) LOG_DEBUG,
+
+    /*
      | When set to true, the producer will ensure that messages are successfully produced exactly once and in the original produce order.
      | The following configuration properties are adjusted automatically (if not modified by the user)
      | when idempotence is enabled: max.in.flight.requests.per.connection=5 (must be less than or equal to 5),
@@ -14,6 +31,12 @@ return [
      | Producer instantiation will fail if user-supplied configuration is incompatible.
      */
     'idempotence'                           => env('KAFKA_ENABLE_IDEMPOTENCE', 'true'),
+
+    /*
+     | Compression codec to use for compressing message sets.
+     | This is the default value for all topics, may be overridden by the topic configuration property compression.codec.
+     */
+    'compression_codec'                     => env('KAFKA_COMPRESSION_CODEC', 'none'),
 
     /*
      | Endpoint identification algorithm to validate broker hostname using broker certificate.

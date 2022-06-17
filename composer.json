@@ -1,39 +1,40 @@
 {
-    "name": "ucraft-com/kafka-producer",
-    "description": "Package for producing messages into Kafka topics.",
-    "type": "library",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Uc\\KafkaProducer\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Uc\\KafkaProducer\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Uc\\KafkaProducer\\KafkaProducerServiceProvider"
-            ]
-        }
-    },
-    "authors": [
-        {
-            "name": "Tigran Mesropyan",
-            "email": "tiko@ucraft.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require-dev": {
-        "orchestra/testbench": "^7.0",
-        "phpunit/phpunit": "^9.5.10"
-    },
-    "require": {
-        "php": ">=8.0",
-        "ext-pcntl": "*",
-        "mateusjunges/laravel-kafka": "v1.6"
+  "name": "ucraft-com/kafka-producer",
+  "description": "Package for producing messages into Kafka topics.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Uc\\KafkaProducer\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Uc\\KafkaProducer\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Uc\\KafkaProducer\\KafkaProducerServiceProvider"
+      ]
+    }
+  },
+  "authors": [
+    {
+      "name": "Tigran Mesropyan",
+      "email": "tiko@ucraft.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require-dev": {
+    "orchestra/testbench": "^7.0",
+    "phpunit/phpunit": "^9.5.10"
+  },
+  "require": {
+    "php": ">=8.0",
+    "ext-pcntl": "*",
+    "ext-rdkafka": "*",
+    "symfony/serializer": "6.2.x-dev"
+  }
 }
