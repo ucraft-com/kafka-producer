@@ -8,6 +8,9 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Uc\KafkaProducer\Events\ProduceMessageEvent;
 use Uc\KafkaProducer\Listeners\MessageProducerListener;
 
+/**
+ * @author Tigran Mesropyan <tiko@ucraft.com>
+ */
 class EventServiceProvider extends ServiceProvider
 {
     /**

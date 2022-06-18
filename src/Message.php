@@ -6,6 +6,8 @@ namespace Uc\KafkaProducer;
 
 /**
  * Wrapper class of Kafka message.
+ *
+ * @author Tigran Mesropyan <tiko@ucraft.com>
  */
 final class Message
 {

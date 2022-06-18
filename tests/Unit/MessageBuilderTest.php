@@ -7,6 +7,9 @@ use Uc\KafkaProducer\Message;
 use Uc\KafkaProducer\MessageBuilder;
 use Uc\KafkaProducer\Tests\TestCase;
 
+/**
+ * @author Tigran Mesropyan <tiko@ucraft.com>
+ */
 class MessageBuilderTest extends TestCase
 {
     public function testGetMessage_WithGivenProperties_ReturnsCorrectInstance() : void

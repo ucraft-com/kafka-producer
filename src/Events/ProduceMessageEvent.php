@@ -9,6 +9,8 @@ use Uc\KafkaProducer\Message;
 
 /**
  * Fire this event whenever we want to produce a new message into Kafka.
+ *
+ * @author Tigran Mesropyan <tiko@ucraft.com>
  */
 class ProduceMessageEvent
 {

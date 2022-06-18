@@ -10,6 +10,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Wrapper class over RdKafka\Producer.
+ *
+ * @author Tigran Mesropyan <tiko@ucraft.com>
  */
 class Producer
 {

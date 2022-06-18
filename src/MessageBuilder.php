@@ -9,7 +9,9 @@ use RuntimeException;
 /**
  * Builder utility to create a message instances.
  *
- * @see \Uc\KafkaProducer\Message
+ * @see    \Uc\KafkaProducer\Message
+ *
+ * @author Tigran Mesropyan <tiko@ucraft.com>
  */
 class MessageBuilder
 {

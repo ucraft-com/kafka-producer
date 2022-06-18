@@ -17,6 +17,8 @@ use function array_filter;
 
 /**
  * Builder utility to create a Producer instances.
+ *
+ * @author Tigran Mesropyan <tiko@ucraft.com>
  */
 class ProducerBuilder
 {

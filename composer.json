@@ -37,6 +37,7 @@
     "ext-pcntl": "*",
     "ext-rdkafka": "*",
     "symfony/serializer": "6.2.x-dev",
-    "symfony/property-access": "6.2.x-dev"
+    "symfony/property-access": "6.2.x-dev",
+    "symfony/mailer": "6.2.x-dev"
   }
 }

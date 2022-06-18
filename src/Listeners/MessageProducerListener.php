@@ -10,7 +10,9 @@ use Uc\KafkaProducer\Events\ProduceMessageEvent;
 /**
  * Listen for ProduceMessageEvent and produce data into Kafka.
  *
- * @see \Uc\KafkaProducer\Events\ProduceMessageEvent
+ * @see    \Uc\KafkaProducer\Events\ProduceMessageEvent
+ *
+ * @author Tigran Mesropyan <tiko@ucraft.com>
  */
 class MessageProducerListener
 {

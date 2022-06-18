@@ -14,6 +14,9 @@ use Uc\KafkaProducer\Producer;
 use Uc\KafkaProducer\Tests\TestCase;
 use Mockery;
 
+/**
+ * @author Tigran Mesropyan <tiko@ucraft.com>
+ */
 class MessageProducerListenerTest extends TestCase
 {
     public function testEventListener_WhenEventOccurs_ProducesMessage() : void

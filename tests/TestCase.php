@@ -7,6 +7,9 @@ namespace Uc\KafkaProducer\Tests;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Uc\KafkaProducer\KafkaProducerServiceProvider;
 
+/**
+ * @author Tigran Mesropyan <tiko@ucraft.com>
+ */
 class TestCase extends BaseTestCase
 {
     /**
