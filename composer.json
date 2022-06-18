@@ -29,7 +29,8 @@
   "minimum-stability": "dev",
   "require-dev": {
     "orchestra/testbench": "^7.0",
-    "phpunit/phpunit": "^9.5.10"
+    "phpunit/phpunit": "^9.5.10",
+    "mockery/mockery": "^1.5"
   },
   "require": {
     "php": ">=8.0",

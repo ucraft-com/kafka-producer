@@ -4,29 +4,63 @@ declare(strict_types = 1);
 
 namespace Uc\KafkaProducer\Tests\Feature;
 
-use Junges\Kafka\Facades\Kafka;
-use Junges\Kafka\Message\Message;
+use RdKafka\Topic;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Uc\KafkaProducer\Events\ProduceMessageEvent;
+use Uc\KafkaProducer\MessageBuilder;
+use Uc\KafkaProducer\Producer;
 use Uc\KafkaProducer\Tests\TestCase;
+use Mockery;
 
 class MessageProducerListenerTest extends TestCase
 {
     public function testEventListener_WhenEventOccurs_ProducesMessage() : void
     {
-        config(['kafka.brokers' => env('KAFKA_BROKERS')]);
-        Kafka::fake();
+        $producer = $this->createProducerMock();
 
-        $message = Message::create('dummy-kafka-topic');
-        $message
-            ->withKey('dummy-key')
-            ->withBody([
-                'foo' => 'bar',
-            ]);
+        // Replace the original producer with mocked.
+        $this->app->singleton(Producer::class, fn() => $producer);
+
+        $builder = new MessageBuilder();
+        $message = $builder
+            ->setTopicName('topic_name')
+            ->setKey('key')
+            ->setBody(['hello' => 'world'])
+            ->setHeaders(['foo', 'bar'])
+            ->getMessage();
 
         ProduceMessageEvent::dispatch($message);
+    }
 
-        Kafka::assertPublishedOn('dummy-kafka-topic', $message, function (Message $message) {
-            return $message->getBody()['foo'] === 'bar';
-        });
+    protected function createProducerMock() : Producer
+    {
+        $topic = Mockery::mock(Topic::class);
+        $topic->shouldReceive('producev')
+            ->withArgs([
+                RD_KAFKA_PARTITION_UA,
+                RD_KAFKA_MSG_F_BLOCK,
+                '{"hello":"world"}',
+                '"key"',
+                ['foo', 'bar'],
+            ])
+            ->once();
+
+        $producer = Mockery::mock(\RdKafka\Producer::class);
+        $producer->shouldReceive('newTopic')
+            ->with('topic_name')
+            ->once()
+            ->andReturn($topic);
+
+        $producer->shouldReceive('poll');
+        $producer->shouldReceive('flush');
+
+        $serializer = new Serializer(
+            [new ObjectNormalizer()],
+            [new JsonEncoder()]
+        );
+
+        return new Producer($producer, $serializer);
     }
 }
