@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 use function extension_loaded;
 use function pcntl_sigprocmask;
+use function array_filter;
 
 /**
  * Builder utility to create a Producer instances.
@@ -82,12 +83,13 @@ class ProducerBuilder
 
     /**
      * Get configuration.
+     * Filter null values.
      *
      * @return array<string, string>
      */
     public function getConfig() : array
     {
-        return $this->config;
+        return array_filter($this->config, fn($value, $key) => null !== $value, ARRAY_FILTER_USE_BOTH);
     }
 
     /**
@@ -135,7 +137,7 @@ class ProducerBuilder
     {
         $conf = new Conf();
 
-        foreach ($this->config as $name => $value) {
+        foreach ($this->getConfig() as $name => $value) {
             $conf->set($name, $value);
         }
 
