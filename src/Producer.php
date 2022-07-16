@@ -8,6 +8,8 @@ use RdKafka\Producer as KafkaProducer;
 use RuntimeException;
 use Symfony\Component\Serializer\SerializerInterface;
 
+use function is_string;
+
 /**
  * Wrapper class over RdKafka\Producer.
  *
@@ -41,12 +43,13 @@ class Producer
     public function produce(Message $message) : void
     {
         $topic = $this->producer->newTopic($message->getTopicName());
+        $key = $message->getKey();
 
         $topic->producev(
             $message->getPartition(),
             RD_KAFKA_MSG_F_BLOCK,
             $this->serializer->serialize($message->getBody(), 'json'),
-            $this->serializer->serialize($message->getKey(), 'json'),
+            is_string($key) ? $key : $this->serializer->serialize($message->getKey(), 'json'),
             $message->getHeaders(),
         );
 
