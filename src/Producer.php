@@ -6,6 +6,8 @@ namespace Uc\KafkaProducer;
 
 use RdKafka\Producer as KafkaProducer;
 use RuntimeException;
+use Symfony\Component\Serializer\Context\Normalizer\DateTimeNormalizerContextBuilder;
+use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use Symfony\Component\Serializer\SerializerInterface;
 
 use function is_string;
@@ -44,12 +46,13 @@ class Producer
     {
         $topic = $this->producer->newTopic($message->getTopicName());
         $key = $message->getKey();
+        $body = $message->getBody();
 
         $topic->producev(
             $message->getPartition(),
             RD_KAFKA_MSG_F_BLOCK,
-            $this->serializer->serialize($message->getBody(), 'json'),
-            is_string($key) ? $key : $this->serializer->serialize($message->getKey(), 'json'),
+            is_string($body) ? $body : $this->serialize($body),
+            is_string($key) ? $key : $this->serialize($key),
             $message->getHeaders(),
         );
 
@@ -65,5 +68,26 @@ class Producer
         if (RD_KAFKA_RESP_ERR_NO_ERROR !== $result) {
             throw new RuntimeException('Was unable to flush, messages might be lost!');
         }
+    }
+
+    /**
+     * Serialize given data.
+     *
+     * @param mixed $data
+     *
+     * @return string
+     */
+    protected function serialize(mixed $data) : string
+    {
+        $initialContextBuilder = (new DateTimeNormalizerContextBuilder())
+            ->withFormat('Y-m-d H:i:s');
+
+        $contextBuilder = (new ObjectNormalizerContextBuilder())
+            ->withContext($initialContextBuilder)
+            ->withSkipNullValues(true)
+            ->withSkipUninitializedValues(true)
+            ->withPreserveEmptyObjects(true);
+
+        return $this->serializer->serialize($data, 'json', $contextBuilder->toArray());
     }
 }

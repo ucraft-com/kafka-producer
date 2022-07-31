@@ -7,6 +7,7 @@ namespace Uc\KafkaProducer;
 use RdKafka\Conf;
 use RdKafka\Producer as KafkaProducer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\UidNormalizer;
@@ -37,7 +38,7 @@ class ProducerBuilder
     public function __construct()
     {
         $this->serializer = new Serializer(
-            [new JsonSerializableNormalizer(), new UidNormalizer(), new ObjectNormalizer()],
+            [new JsonSerializableNormalizer(), new UidNormalizer(), new DateTimeNormalizer(), new ObjectNormalizer()],
             [new JsonEncoder()]
         );
     }
