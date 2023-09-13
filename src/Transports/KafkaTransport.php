@@ -56,7 +56,7 @@ class KafkaTransport extends AbstractTransport
         $body = $this->prepareMessageBody($email);
         $kafkaMessage = $this->builder
             ->setTopicName($this->topic)
-            ->setKey($body['from'])
+            ->setKey($body['payload']['from'])
             ->setBody($body)
             ->getMessage();
 
@@ -70,15 +70,18 @@ class KafkaTransport extends AbstractTransport
      *
      * @return array
      */
-    protected function prepareMessageBody(Email $email) : array
+    protected function prepareMessageBody(Email $email): array
     {
         return [
-            'from'       => $email->getFrom()[0]->toString(),
-            'recipients' => array_map(function (Address $address) {
-                return $address->getAddress();
-            }, $email->getTo()),
-            'subject'    => $email->getSubject(),
-            'body'       => $email->getHtmlBody(),
+            'type'    => 'mail',
+            'payload' => [
+                'from'       => $email->getFrom()[0]->toString(),
+                'recipients' => array_map(function (Address $address) {
+                    return $address->getAddress();
+                }, $email->getTo()),
+                'subject'    => $email->getSubject(),
+                'body'       => $email->getHtmlBody(),
+            ],
         ];
     }
 
