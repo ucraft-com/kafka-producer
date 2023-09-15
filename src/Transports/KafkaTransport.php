@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Uc\KafkaProducer\Transports;
 
@@ -41,8 +41,13 @@ class KafkaTransport extends AbstractTransport
      */
     protected string $topic;
 
-    public function __construct(Dispatcher $laravelEventDispatcher, MessageBuilder $builder, string $topic, EventDispatcherInterface $dispatcher = null, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        Dispatcher $laravelEventDispatcher,
+        MessageBuilder $builder,
+        string $topic,
+        EventDispatcherInterface $dispatcher = null,
+        LoggerInterface $logger = null
+    ) {
         parent::__construct($dispatcher, $logger);
 
         $this->builder = $builder;
@@ -50,14 +55,14 @@ class KafkaTransport extends AbstractTransport
         $this->laravelEventDispatcher = $laravelEventDispatcher;
     }
 
-    protected function doSend(SentMessage $message) : void
+    protected function doSend(SentMessage $message): void
     {
         $email = MessageConverter::toEmail($message->getOriginalMessage());
         $body = $this->prepareMessageBody($email);
         $kafkaMessage = $this->builder
             ->setTopicName($this->topic)
-            ->setKey($body['payload']['from'])
-            ->setBody($body)
+            ->setKey($body['request']['from'])
+            ->setBody([$body])
             ->getMessage();
 
         $this->laravelEventDispatcher->dispatch(new ProduceMessageEvent($kafkaMessage));
@@ -74,13 +79,13 @@ class KafkaTransport extends AbstractTransport
     {
         return [
             'type'    => 'mail',
-            'payload' => [
+            'request' => [
                 'from'       => $email->getFrom()[0]->toString(),
                 'recipients' => array_map(function (Address $address) {
                     return $address->getAddress();
                 }, $email->getTo()),
                 'subject'    => $email->getSubject(),
-                'body'       => $email->getHtmlBody(),
+                'html'       => $email->getHtmlBody(),
             ],
         ];
     }
@@ -90,7 +95,7 @@ class KafkaTransport extends AbstractTransport
      *
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return 'kafka-mailer';
     }
