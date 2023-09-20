@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace Uc\KafkaProducer;
 
-use Uc\KafkaProducer\Transports\KafkaTransport;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Uc\KafkaProducer\Providers\EventServiceProvider;
 
@@ -55,7 +53,6 @@ class KafkaProducerServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function boot() : void
     {
@@ -67,9 +64,5 @@ class KafkaProducerServiceProvider extends ServiceProvider
                 'kafka-producer-config'
             );
         }
-
-        Mail::extend('kafka-mailer', function ($config) {
-            return $this->app->make(KafkaTransport::class, ['topic' => $config['topic']]);
-        });
     }
 }

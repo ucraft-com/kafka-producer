@@ -84,14 +84,4 @@ return [
      | fnv1a_random - FNV-1a hash of key (NULL keys are randomly partitioned).
      */
     'partitioner'                           => env('KAFKA_PARTITIONER', 'random'),
-
-    /*
-     | In order to use our Kafka-based mail server put this piece of code in the config/mail.php file.
-     |
-     'kafka-mailer' => [
-          'transport' => 'kafka-mailer,
-          'topic'     => env('KAFKA_MAILER_TOPIC'),
-      ],
-      |
-     */
 ];
