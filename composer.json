@@ -28,15 +28,15 @@
   ],
   "minimum-stability": "dev",
   "require-dev": {
-    "orchestra/testbench": "^7.0",
-    "phpunit/phpunit": "^9.5.10",
+    "orchestra/testbench": "^9.0",
+    "phpunit/phpunit": "^11.0",
     "mockery/mockery": "^1.5"
   },
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.2",
     "ext-pcntl": "*",
     "ext-rdkafka": "*",
-    "symfony/serializer": "6.2.x-dev",
-    "symfony/property-access": "6.2.x-dev"
+    "symfony/serializer": "^7.0",
+    "symfony/property-access": "7.0"
   }
 }
