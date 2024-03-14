@@ -37,6 +37,6 @@
     "ext-pcntl": "*",
     "ext-rdkafka": "*",
     "symfony/serializer": "^7.0",
-    "symfony/property-access": "7.0"
+    "symfony/property-access": "^7.0"
   }
 }
