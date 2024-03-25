@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Uc\KafkaProducer;
 
@@ -21,7 +21,7 @@ class KafkaProducerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register() : void
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'kafka-producer');
         $this->app->register(EventServiceProvider::class);
@@ -37,13 +37,16 @@ class KafkaProducerServiceProvider extends ServiceProvider
                     'client.id'                             => config('kafka-producer.client_id'),
                     'enable.idempotence'                    => config('kafka-producer.idempotence'),
                     'compression.codec'                     => config('kafka-producer.compression_codec'),
-                    'ssl.endpoint.identification.algorithm' => config('kafka-producer.ssl_endpoint_identification_algorithm'),
+                    'ssl.endpoint.identification.algorithm' => config(
+                        'kafka-producer.ssl_endpoint_identification_algorithm'
+                    ),
                     'security.protocol'                     => config('kafka-producer.security_protocol'),
                     'sasl.mechanisms'                       => config('kafka-producer.sasl_mechanisms'),
                     'sasl.username'                         => config('kafka-producer.sasl_username'),
                     'sasl.password'                         => config('kafka-producer.sasl_password'),
                     'socket.timeout.ms'                     => config('kafka-producer.socket_timeout_ms'),
                     'partitioner'                           => config('kafka-producer.partitioner'),
+                    'message.max.bytes'                     => config('kafka-producer.message_max_bytes'),
                 ])
                 ->getProducer();
         });
@@ -54,7 +57,7 @@ class KafkaProducerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot() : void
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes(

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Uc\KafkaProducer;
 
@@ -36,13 +36,33 @@ class Producer
     }
 
     /**
+     * Proper shutdown
+     * This should be done prior to destroying a producer instance
+     * to make sure all queued and in-flight produce requests are completed
+     * before terminating.
+     */
+    public function __destruct()
+    {
+        for ($flushRetries = 0; $flushRetries < 10; $flushRetries++) {
+            $result = $this->producer->flush(10000);
+            if (RD_KAFKA_RESP_ERR_NO_ERROR === $result) {
+                break;
+            }
+        }
+
+        if (RD_KAFKA_RESP_ERR_NO_ERROR !== $result) {
+            throw new RuntimeException('Was unable to flush, messages might be lost!');
+        }
+    }
+
+    /**
      * Produce and send a single message to broker.
      *
      * @param \Uc\KafkaProducer\Message $message
      *
      * @return void
      */
-    public function produce(Message $message) : void
+    public function produce(Message $message): void
     {
         $topic = $this->producer->newTopic($message->getTopicName());
         $key = $message->getKey();
@@ -57,17 +77,6 @@ class Producer
         );
 
         $this->producer->poll(0);
-
-        for ($flushRetries = 0; $flushRetries < 10; $flushRetries++) {
-            $result = $this->producer->flush(10000);
-            if (RD_KAFKA_RESP_ERR_NO_ERROR === $result) {
-                break;
-            }
-        }
-
-        if (RD_KAFKA_RESP_ERR_NO_ERROR !== $result) {
-            throw new RuntimeException('Was unable to flush, messages might be lost!');
-        }
     }
 
     /**
@@ -77,7 +86,7 @@ class Producer
      *
      * @return string
      */
-    protected function serialize(mixed $data) : string
+    protected function serialize(mixed $data): string
     {
         $initialContextBuilder = (new DateTimeNormalizerContextBuilder())
             ->withFormat('Y-m-d H:i:s');

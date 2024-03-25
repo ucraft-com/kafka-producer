@@ -21,7 +21,7 @@ return [
     /*
      | Logging level (syslog(3) levels)
      */
-    'log_level'                             => (string) LOG_DEBUG,
+    'log_level'                             => (string)LOG_DEBUG,
 
     /*
      | When set to true, the producer will ensure that messages are successfully produced exactly once and in the original produce order.
@@ -84,4 +84,12 @@ return [
      | fnv1a_random - FNV-1a hash of key (NULL keys are randomly partitioned).
      */
     'partitioner'                           => env('KAFKA_PARTITIONER', 'random'),
+
+    /*
+     | Maximum Kafka protocol request message size.
+     | Due to differing framing overhead between protocol versions
+     | the producer is unable to reliably enforce a strict max message limit at produce time and may exceed the maximum size by one message in protocol ProduceRequests,
+     | the broker will enforce the topic's max.message.bytes limit (see Apache Kafka documentation).
+     */
+    'message_max_bytes'                     => env('KAFKA_MESSAGE_MAX_BYTES', '1000000'),
 ];
